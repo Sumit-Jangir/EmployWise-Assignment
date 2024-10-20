@@ -15,7 +15,7 @@ const Items = () => {
   }
   useEffect(() => {
     userData();
-  }, []);
+  }, [page]);
 
   async function handleDelete(id) {
     try {
@@ -26,7 +26,6 @@ const Items = () => {
     }
   }
 
-  
   async function handleEdit(id) {
     try {
       setSelectedProduct(true);
@@ -36,7 +35,7 @@ const Items = () => {
       console.error("Failed to delete user");
     }
   }
-  
+
   const closeModal = () => {
     setSelectedProduct(false);
   };
@@ -54,7 +53,6 @@ const Items = () => {
       console.error("Failed to update user");
     }
   };
-
 
   return (
     <div className="w-full bg-gray-200 h-full ">
@@ -92,10 +90,24 @@ const Items = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center">
-        <button className="bg-[#22282F] text-white uppercase mt-0 m-10 px-4 py-2 rounded">
-          Next
-        </button>
+
+      <div className="flex justify-center pt-0 p-10">
+        {page > 1 && (
+          <button
+            className="bg-[#22282F] text-white uppercase  px-4 py-2 rounded"
+            onClick={() => setPage(page - 1)}
+          >
+            Previous Page
+          </button>
+        )}
+        {page < 2 && (
+          <button
+            className="bg-[#22282F] text-white uppercase px-4 py-2 rounded"
+            onClick={() => setPage(page + 1)}
+          >
+            Next Page
+          </button>
+        )}
       </div>
 
       {selectedProduct && view && (
@@ -143,19 +155,17 @@ const Items = () => {
                   className="w-full border rounded p-2 outline-none"
                   type="email"
                   value={view.email || ""}
-                  onChange={(e) =>
-                    setView({ ...view, email: e.target.value })
-                  }
+                  onChange={(e) => setView({ ...view, email: e.target.value })}
                 />
               </label>
             </p>
 
             <button
-                onClick={handleUpdate}
-                className="bg-[#22282F] text-white uppercase mt-3 px-4 py-2 rounded"
-              >
-                Update
-              </button>
+              onClick={handleUpdate}
+              className="bg-[#22282F] text-white uppercase mt-3 px-4 py-2 rounded"
+            >
+              Update
+            </button>
           </div>
         </div>
       )}
