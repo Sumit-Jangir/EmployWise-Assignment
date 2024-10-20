@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const [email, setEmail] = useState("eve.holt@reqres.in");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function handleSubmit(e) {
@@ -15,21 +15,18 @@ const Login = () => {
         email,
         password,
       });
-      console.log("wdua");
       localStorage.setItem("token", response.data.token);
       navigate("/data");
     } catch (error) {
-      console.log("Invalid Email or Password");
+      setError("Invalid Email or Password");
     }
-
-    console.log("oiuhknmhuygh");
   }
 
   return (
     <>
       {/* <div className="bg-gray-200"> */}
       <div className="flex bg-gray-200 items-center h-screen w-full">
-        <div className="w-full bg-gray-300 rounded shadow-lg p-8 md:max-w-sm md:mx-auto">
+        <div className="w-full bg-gray-300 rounded p-8 md:max-w-sm md:mx-auto">
           <div className="text-2xl uppercase font-bold text-center mb-4">
             Login
           </div>
@@ -44,10 +41,11 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
+                  required
                 />
               </label>
             </div>
-            <div className="mb-6 md:w-full">
+            <div className="md:w-full">
               <label className="text-lg mb-3">
                 Password
                 <input
@@ -57,15 +55,18 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
+                  required
                 />
               </label>
             </div>
+            {error && <p className="text-red-500">{error}</p>}
             <button
               type="submit"
-              className="bg-[#22282F] text-white uppercase text-sm font-semibold px-4 py-2 rounded"
-            >
+              className="bg-[#22282F] text-white uppercase text-sm font-semibold mt-6 px-4 py-2 rounded"
+              >
               Login
             </button>
+
           </form>
         </div>
       </div>
