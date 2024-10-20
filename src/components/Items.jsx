@@ -16,12 +16,24 @@ const Items = () => {
     userData();
   }, []);
 
+  async function handleDelete(id) {
+    try {
+      await axios.delete(`https://reqres.in/api/users/${id}`);
+      setItems(items.filter((item) => item.id != id));
+    } catch (error) {
+      console.error("Failed to delete user");
+    }
+  }
+
   return (
-    <div className="bg-gray-200 h-full ">
+    <div className="w-full bg-gray-200 h-full ">
       <h1 className="text-center text-4xl pt-10 font-bold">User List</h1>
       <div className="flex flex-wrap p-10 justify-center items-center">
         {items.map((item) => (
-          <div className="w-full bg-gray-300 rounded p-6 m-8 md:max-w-sm md:mx-auto">
+          <div
+            className="w-full bg-gray-300 rounded p-6 m-8 md:max-w-sm md:mx-auto"
+            key={item.id}
+          >
             <img
               className="h-full w-full rounded-md "
               src={item.avatar}
@@ -33,15 +45,26 @@ const Items = () => {
             <p className="text-lg ">Email: {item.email}</p>
 
             <div className="flex justify-between">
-              <button className="bg-[#22282F] text-white uppercase mt-6 px-4 py-2 rounded">
+              <button
+                className="bg-[#22282F] text-white uppercase mt-6 px-4 py-2 rounded"
+                // onClick={() => handleEdit(item.id)}
+              >
                 Edit
               </button>
-              <button className="bg-[#22282F] text-white uppercase mt-6 px-4 py-2 rounded">
+              <button
+                className="bg-[#22282F] text-white uppercase mt-6 px-4 py-2 rounded"
+                onClick={() => handleDelete(item.id)}
+              >
                 Delete
               </button>
             </div>
           </div>
         ))}
+      </div>
+      <div className="flex justify-center">
+        <button className="bg-[#22282F] text-white uppercase mt-0 m-10 px-4 py-2 rounded">
+          Next
+        </button>
       </div>
     </div>
   );
